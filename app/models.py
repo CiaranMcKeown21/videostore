@@ -15,11 +15,14 @@ def load_user(id):
 class User(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(64), index=True, unique=True)
+	first_name = db.Column(db.String(64))
+	last_name = db.Column(db.String(64))
 	email = db.Column(db.String(120), index=True, unique=True)
 	password_hash = db.Column(db.String(128))
 	posts = db.relationship('Post', backref='author', lazy='dynamic')
 	about_me = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime, default= datetime.utcnow)
+	Address_id = db.Column(db.Integer, db.ForeignKey('address.id', ondelete='CASCADE'))
 
 	followed = db.relationship(
 		'User', 
@@ -71,3 +74,13 @@ class Post(db.Model):
 
 	def __repr__(self):
 		return '<Post {}>'.format(self.body)
+
+class Address(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.String(50))
+    address = db.Column(db.String(50))
+    cadress2 = db.Column(db.String(50))
+    postal_Code = db.Column(db.String(10))
+    phone = db.Column(db.String(20))
+    country = db.Column(db.String(50))
+    last_update = db.Column(db.DateTime, default=datetime.utcnow)
