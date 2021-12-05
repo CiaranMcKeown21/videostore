@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post
+from app.models import User, Post, Address
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -72,7 +72,7 @@ def register():
 		return redirect(url_for('index'))
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		user=User(username=form.username.data, email=form.email.data)
+		user=User(username=form.username.data, email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data)
 		user.set_password(form.password.data)
 		db.session.add(user)
 		db.session.commit()
@@ -112,20 +112,23 @@ def edit_profile():
 	return render_template('edit_profile.html', title='Edit Profile', form=form)
 
 
-# @app.route('/edit_profile', methods=['GET', 'POST'])
-# @login_required
-# def edit_profile():
-#     form = EditProfileForm()
-#     if form.validate_on_submit():
-#         current_user.username = form.username.data
-#         current_user.about_me = form.about_me.data
-#         db.session.commit()
-#         flash('Your changes have been saved.')
-#         return redirect(url_for('edit_profile'))
-#     elif request.method == 'GET':
-#         form.username.data = current_user.username
-#         form.about_me.data = current_user.about_me
-#     return render_template('edit_profile.html', title='Edit Profile', form=form)
+@app.route('/edit_address', methods=['GET', 'POST'])
+def edit_address():
+	form = EditAddressForm()
+	if form.validate_on_submit():
+		current_user.city = form.city.data
+		current_user.address = form.address.data
+		current_user.postal_Code = form.postal_Code.data
+		current_user.country = form.country.data
+		db.session.commit()
+		flash('Your changes have been saved.')
+		return redirect(url_for('edit_address'))
+	elif request.method == 'GET':
+		form.first_name.data = current_user.first_name
+		form.last_name.data = current_user.last_name
+		form.about_me.data = current_user.about_me
+	return render_template('edit_address.html', title='Edit Profile', form=form)
+    
 
 
 @app.route('/follow/<username>', methods = ['POST'])
@@ -185,3 +188,8 @@ def update_posts(id):
             form.post.data = post.body
         return render_template('edit_post.html', title='Edit Post', form=form)
     return redirect(url_for('index'))
+
+@app.route('/games')
+@login_required
+def games():
+	return 'hi'

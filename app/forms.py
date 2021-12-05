@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
-from app.models import User
+from app.models import User, Address
 
 class EmptyForm(FlaskForm):
 	submit = SubmitField('Submit')
@@ -15,6 +15,8 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
 	username = StringField('Username', validators=[DataRequired()])
 	email = StringField('Email',validators=[DataRequired(),Email()])
+	first_name = StringField('First Name', validators=[DataRequired()])
+	last_name = StringField('Last Name', validators=[DataRequired()])
 	password = PasswordField('Password', validators=[DataRequired()])
 	password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
 	submit = SubmitField('Register')
@@ -34,6 +36,16 @@ class EditProfileForm(FlaskForm):
 	last_name = StringField('Last Name', validators=[DataRequired()])
 	about_me = TextAreaField('About Me', validators=[Length(min=0,max=140)])
 	submit = SubmitField('Submit')
+
+class EditAddressForm(FlaskForm):
+	username = StringField('Username', validators=[DataRequired()])
+	city = StringField('city', validators=[DataRequired()])
+	address = StringField('Address', validators=[DataRequired()])
+	postal_Code = StringField('Post Code', validators=[DataRequired()])
+	country = StringField('Country', validators=[DataRequired()])
+	submit = SubmitField('Submit')
+
+	
 
 class PostForm(FlaskForm):
 	post = TextAreaField('Say something', validators= [

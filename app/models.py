@@ -23,6 +23,8 @@ class User(UserMixin, db.Model):
 	about_me = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime, default= datetime.utcnow)
 	Address_id = db.Column(db.Integer, db.ForeignKey('address.id', ondelete='CASCADE'))
+	is_admin = db.Column(db.Boolean, default=False)
+
 
 	followed = db.relationship(
 		'User', 
@@ -76,11 +78,12 @@ class Post(db.Model):
 		return '<Post {}>'.format(self.body)
 
 class Address(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(50))
-    address = db.Column(db.String(50))
-    cadress2 = db.Column(db.String(50))
-    postal_Code = db.Column(db.String(10))
-    phone = db.Column(db.String(20))
-    country = db.Column(db.String(50))
-    last_update = db.Column(db.DateTime, default=datetime.utcnow)
+	id = db.Column(db.Integer, primary_key=True)
+	city = db.Column(db.String(50))
+	address = db.Column(db.String(50))
+	cadress2 = db.Column(db.String(50))
+	postal_code = db.Column(db.String(10))
+	phone = db.Column(db.String(20))
+	country = db.Column(db.String(50))
+	last_update = db.Column(db.DateTime, default=datetime.utcnow)
+	Username = db.Column(db.String, db.ForeignKey('user.username', ondelete='CASCADE'))
