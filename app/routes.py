@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
+from app.forms import AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post, Address
+from app.models import User, Post, Address, videogames
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -194,11 +194,6 @@ def update_posts(id):
         return render_template('edit_post.html', title='Edit Post', form=form)
     return redirect(url_for('index'))
 
-@app.route('/games')
-@login_required
-def games():
-	return 'hi'
-
 @app.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
@@ -207,3 +202,16 @@ def admin_dashboard():
 		return render_template('error403.html', title="Error 403")
 	return render_template('admin_dashboard.html', title="Dashboard")
 
+def check_admin():
+	if not current_user.is_admin:
+		return render_template('error403.html', title="Error 403")
+
+		
+@app.route('/games')
+@login_required
+def games():
+	return 'hi'
+
+
+	
+	
