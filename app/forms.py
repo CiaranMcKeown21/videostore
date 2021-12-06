@@ -53,8 +53,6 @@ class PostForm(FlaskForm):
 	submit = SubmitField('Submit')
 
 class AdminVideoForm(FlaskForm):
-	name = StringField('Name', validators=[DataRequired()])
-	description = StringField('Description', validators=[DataRequired()])
-	release_year = IntegerField('Release Date', validators=[DataRequired()])
-	rating = IntegerField('Rating',validators=[DataRequired()])
-	submit = SubmitField('Submit')
+    name = StringField('Name', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Submit')

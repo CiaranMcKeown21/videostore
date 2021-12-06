@@ -1,8 +1,10 @@
-from flask import render_template, flash, redirect, url_for, request
+from operator import add
+from flask import abort, render_template, flash, redirect, url_for, request
+from flask_wtf import form
 from app import app, db
 from app.forms import AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post, Address, videogames
+from app.models import User, Post, Address, Game
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -129,9 +131,9 @@ def edit_address():
 		flash('Your changes have been saved.')
 		return redirect(url_for('edit_address'))
 	elif request.method == 'GET':
-		form.first_name.data = current_user.first_name
-		form.last_name.data = current_user.last_name
-		form.about_me.data = current_user.about_me
+		form.city.data = current_user.city
+		form.address.data = current_user.address
+		form.postal_Code.data = current_user.postal_code
 	return render_template('edit_address.html', title='Edit Profile', form=form)
     
 
@@ -202,16 +204,101 @@ def admin_dashboard():
 		return render_template('error403.html', title="Error 403")
 	return render_template('admin_dashboard.html', title="Dashboard")
 
+@app.route('/games')
+@login_required
+def games():
+	return 'hi hopefully this will show games in the future'
+
+
 def check_admin():
 	if not current_user.is_admin:
 		return render_template('error403.html', title="Error 403")
 
-		
-@app.route('/games')
+#Game View
+@app.route('/admin_games', methods=['GET', 'POST'])
 @login_required
-def games():
-	return 'hi'
+def list_games():
+	check_admin()
+	games = Game.query.all()
+	return render_template ('admin/games/games.html', games=games, title="Games")
+
+@app.route('/admin_games/add', methods=['GET', 'POST'])
+@login_required
+def add_game():
+	check_admin()
+	add_game = True
+	form = AdminVideoForm()
+	if form.validate_on_submit():
+		game = Game(name=form.name.data, description=form.description.data)
+
+		try:
+			db.session.add(game)
+			db.session.commit()
+			flash('You have successfully added a new game.')
+		
+		except:
+			flash('Error: Game already exists.')
+		return redirect(url_for('list_games'))
+
+	return render_template('admin/games/game.html', action="Add", add_game=add_game, form=form, title="Add Game")
 
 
+@app.route('/admin_games/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_game(id):
+	check_admin()
+	add_game = False
+	game = Game.query.get_or_404(id)
+	form = AdminVideoForm(obj=game)
+	if form.validate_on_submit():
+		game.name = form.name.data
+		game.description = form.description.data
+		db.session.commit()
+		flash('You have successfully edited the game.')
+		return redirect(url_for('list_games'))
+	form.description.data = game.description
+	form.name.data = game.name
+	return render_template('admin/games/game.html', action="Edit", add_game=add_game, form=form, game=game, title="Edit Game")
+
+
+@app.route('/admin_games/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_game(id):
+	check_admin()
+	game = Game.query.get_or_404(id)
+	db.session.delete(game)
+	db.session.commit()
+	flash('You have successfully deleted the game.')
+	return redirect(url_for('list_games'))
 	
-	
+	return render_template(title="Delete Game")
+
+
+
+# @app.route('/admingames')
+# @login_required
+# def admingames():
+# 	check_admin()
+# 	page = request.args.get('page', 1, type=int)
+# 	games = Game.query.order_by(Game.last_update.desc()).paginate(
+# 		page, app.config['POSTS_PER_PAGE'], False)
+# 	next_url = url_for('explore', page=games.next_num) if games.has_next else None
+# 	prev_url = url_for('explore', page=games.prev_num) if games.has_prev else None
+
+# 	return render_template('admin_games.html', title='Explore',games=games.items, next_url= next_url, prev_url=prev_url)
+
+# form = AdminVideoForm()
+	# if form.validate_on_submit():
+	# 	name = form.name.data
+	# 	description = form.description.data
+	# 	release_year = form.release_year.data
+	# 	rating = form.rating.data
+	# 	db.session.commit(videogames)
+	# 	flash('Your changes have been saved.')
+	# 	return redirect(url_for('admingames'))
+	# elif request.method == 'GET':
+	# 	form.name.data = videogames.name
+	# 	form.description.data = videogames.description
+	# 	form.release_year.data = videogames.release_year
+ 	# form.rating.data = videogames.rating
+# return render_template('admin_games.html', title='Edit Profile', form=form, games=games.items, next_url= next_url, prev_url=prev_url)
