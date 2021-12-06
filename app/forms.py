@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, TextAreaField
+from wtforms.fields.core import SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 from app.models import User, Address
 
@@ -53,6 +54,9 @@ class PostForm(FlaskForm):
 	submit = SubmitField('Submit')
 
 class AdminVideoForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    description = StringField('Description', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+	name = StringField('Name', validators=[DataRequired()])
+	description = StringField('Description', validators=[DataRequired()])
+	release_year = IntegerField('Release Year', validators=[DataRequired()])
+	rating = IntegerField('Rating', validators=[DataRequired()])
+	loan_status = SelectField('Loan Status', choices=[('Available', 'Available'), ('Out on Loan', 'Out on Loan')])
+	submit = SubmitField('Submit')

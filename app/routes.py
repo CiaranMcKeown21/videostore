@@ -6,7 +6,7 @@ from app.forms import AdminVideoForm, LoginForm, RegistrationForm, EditProfileFo
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Address, Game
 from werkzeug.urls import url_parse
-from datetime import datetime
+from datetime import date, datetime
 
 @app.before_request
 def before_request():
@@ -207,12 +207,13 @@ def admin_dashboard():
 @app.route('/games')
 @login_required
 def games():
-	return 'hi hopefully this will show games in the future'
+	games = Game.query.all()
+	return render_template ('games.html', games=games, title="Games")
 
 
 def check_admin():
 	if not current_user.is_admin:
-		return render_template('error403.html', title="Error 403")
+		abort(403)
 
 #Game View
 @app.route('/admin_games', methods=['GET', 'POST'])
@@ -229,7 +230,7 @@ def add_game():
 	add_game = True
 	form = AdminVideoForm()
 	if form.validate_on_submit():
-		game = Game(name=form.name.data, description=form.description.data)
+		game = Game(name=form.name.data, description=form.description.data, release_year = form.release_year.data, rating = form.rating.data, loan_status = form.loan_status.data, last_update = datetime.utcnow())
 
 		try:
 			db.session.add(game)
@@ -253,6 +254,10 @@ def edit_game(id):
 	if form.validate_on_submit():
 		game.name = form.name.data
 		game.description = form.description.data
+		game.release_year = form.release_year.data
+		game.rating = form.rating.data
+		game.loan_status = form.loan_status.data
+		game.last_update = datetime.utcnow()
 		db.session.commit()
 		flash('You have successfully edited the game.')
 		return redirect(url_for('list_games'))

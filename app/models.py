@@ -89,19 +89,12 @@ class Address(db.Model):
 	Username = db.Column(db.String, db.ForeignKey('user.username', ondelete='CASCADE'))
 
 
-class videogames(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(50))
-	description = db.Column(db.String(250))
-	release_year = db.Column(db.Integer)
-	rating = db.Column(db.Integer)
-	last_update = db.Column(db.DateTime, default=datetime.utcnow)
-
 class Game(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(50))
 	description = db.Column(db.String(250))
 	release_year = db.Column(db.Integer)
 	rating = db.Column(db.Integer)
+	loan_status = db.Column(db.String(150))
 	last_update = db.Column(db.DateTime, default=datetime.utcnow)
 

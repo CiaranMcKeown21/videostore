@@ -1,5 +1,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% extends "base.html" %}
+
+{% block app_content %}
 {% block title %}
     {% if add_game %}
         Add Game
@@ -25,4 +27,5 @@
     </div>
   </div>
 </div>
+{% endblock %}
 {% endblock %}

@@ -18,32 +18,20 @@
               <thead>
                 <tr>
                   <th width="15%"> Name </th>
-                  <th width="25%"> Description </th>
+                  <th width="40%"> Description </th>
                   <th width="15%"> Release Year </th>
                   <th width="15%"> Rating </th>
                   <th width="15%"> Loan Status </th>
-                  <th width="15%"> Edit </th>
-                  <th width="15%"> Delete </th>
                 </tr>
               </thead>
               <tbody>
               {% for game in games %}
-                <tr>
-                  <td> {{ game.name }} </td>
-                  <td> {{ game.description }} </td>
-                  <td> {{ game.release_year }} </td>
-                  <td> {{ game.rating }} </td>
-                  <td> {{ game.loan_status }} </td>
-                  <td>
-                    <a href="{{ url_for('edit_game', id=game.id) }}">
-                      <i class="fa fa-pencil"></i> Edit
-                    </a>
-                  </td>
-                  <td>
-                    <a href="{{ url_for('delete_game', id=game.id) }}">
-                      <i class="fa fa-trash"></i> Delete
-                    </a>
-                  </td>
+              <tr>
+                <td> {{ game.name }} </td>
+                <td> {{ game.description }} </td>
+                <td> {{ game.release_year }} </td>
+                <td> {{ game.rating }} </td>
+                <td> {{ game.loan_status }} </td>
                 </tr>
               {% endfor %}
               </tbody>
@@ -55,10 +43,6 @@
             <h3> No Games have been added. </h3>
             <hr class="intro-divider">
         {% endif %}
-          <a href="{{ url_for('add_game') }}" class="btn btn-default btn-lg">
-            <i class="fa fa-plus"></i>
-            Add Game
-          </a>
         </div>
       </div>
     </div>
