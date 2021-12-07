@@ -60,3 +60,10 @@ class AdminVideoForm(FlaskForm):
 	rating = IntegerField('Rating', validators=[DataRequired()])
 	loan_status = SelectField('Loan Status', choices=[('Available', 'Available'), ('Out on Loan', 'Out on Loan')])
 	submit = SubmitField('Submit')
+
+class AdminUserForm(FlaskForm):
+	username = StringField('Name', validators=[DataRequired()])
+	first_name = StringField('First Name', validators=[DataRequired()])
+	last_name = StringField('Last Name', validators=[DataRequired()])
+	email = StringField('E-Mail', validators=[DataRequired()])
+	last_seen = StringField('Last Seen', validators=[DataRequired()])

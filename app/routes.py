@@ -2,7 +2,7 @@ from operator import add
 from flask import abort, render_template, flash, redirect, url_for, request
 from flask_wtf import form
 from app import app, db
-from app.forms import AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
+from app.forms import AdminUserForm, AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Address, Game
 from werkzeug.urls import url_parse
@@ -279,31 +279,9 @@ def delete_game(id):
 	return render_template(title="Delete Game")
 
 
-
-# @app.route('/admingames')
-# @login_required
-# def admingames():
-# 	check_admin()
-# 	page = request.args.get('page', 1, type=int)
-# 	games = Game.query.order_by(Game.last_update.desc()).paginate(
-# 		page, app.config['POSTS_PER_PAGE'], False)
-# 	next_url = url_for('explore', page=games.next_num) if games.has_next else None
-# 	prev_url = url_for('explore', page=games.prev_num) if games.has_prev else None
-
-# 	return render_template('admin_games.html', title='Explore',games=games.items, next_url= next_url, prev_url=prev_url)
-
-# form = AdminVideoForm()
-	# if form.validate_on_submit():
-	# 	name = form.name.data
-	# 	description = form.description.data
-	# 	release_year = form.release_year.data
-	# 	rating = form.rating.data
-	# 	db.session.commit(videogames)
-	# 	flash('Your changes have been saved.')
-	# 	return redirect(url_for('admingames'))
-	# elif request.method == 'GET':
-	# 	form.name.data = videogames.name
-	# 	form.description.data = videogames.description
-	# 	form.release_year.data = videogames.release_year
- 	# form.rating.data = videogames.rating
-# return render_template('admin_games.html', title='Edit Profile', form=form, games=games.items, next_url= next_url, prev_url=prev_url)
+@app.route('/adminusers', methods=['GET', 'POST'])
+@login_required
+def list_users():
+	check_admin()
+	users = User.query.all()
+	return render_template ('admin/users/users.html', users=users, title="Users")
