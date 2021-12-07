@@ -275,13 +275,64 @@ def delete_game(id):
 	db.session.commit()
 	flash('You have successfully deleted the game.')
 	return redirect(url_for('list_games'))
-	
-	return render_template(title="Delete Game")
 
 
-@app.route('/adminusers', methods=['GET', 'POST'])
+#User View
+@app.route('/admin_users', methods=['GET', 'POST'])
 @login_required
 def list_users():
 	check_admin()
 	users = User.query.all()
 	return render_template ('admin/users/users.html', users=users, title="Users")
+
+@app.route('/admin_users/add', methods=['GET', 'POST'])
+@login_required
+def add_user():
+	check_admin()
+	add_user = True
+	form = AdminUserForm()
+	if form.validate_on_submit():
+		user = User(username=form.username.data, first_name=form.first_name.data, last_name = form.last_name.data, email = form.email.data)
+
+		try:
+			db.session.add(user)
+			db.session.commit()
+			flash('You have successfully added a new user.')
+		
+		except:
+			flash('Error: User already exists.')
+		return redirect(url_for('list_users'))
+
+	return render_template('admin/users/user.html', action="Add", add_user=add_user, form=form, title="Add User")
+
+
+@app.route('/admin_users/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_user(id):
+	check_admin()
+	add_user = False
+	user = User.query.get_or_404(id)
+	form = AdminUserForm(obj=user)
+	if form.validate_on_submit():
+		user.username = form.username.data
+		user.first_name = form.first_name.data
+		user.last_name = form.last_name.data
+		user.email = form.email.data
+		user.last_update = datetime.utcnow()
+		db.session.commit()
+		flash('You have successfully edited the game.')
+		return redirect(url_for('list_users'))
+
+	return render_template('admin/users/user.html', action="Edit", add_user=add_user, form=form, user=user, title="Edit Game")
+
+
+@app.route('/admin_users/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_user(id):
+	check_admin()
+	user = User.query.get_or_404(id)
+	db.session.delete(user)
+	db.session.commit()
+	flash('You have successfully deleted the user.')
+	return redirect(url_for('list_users'))
+

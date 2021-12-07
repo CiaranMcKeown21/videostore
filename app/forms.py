@@ -66,4 +66,4 @@ class AdminUserForm(FlaskForm):
 	first_name = StringField('First Name', validators=[DataRequired()])
 	last_name = StringField('Last Name', validators=[DataRequired()])
 	email = StringField('E-Mail', validators=[DataRequired()])
-	last_seen = StringField('Last Seen', validators=[DataRequired()])
+	submit = SubmitField('Submit')

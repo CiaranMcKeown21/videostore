@@ -1,4 +1,4 @@
-<!-- {% extends 'bootstrap/base.html' %}
+{% extends 'bootstrap/base.html' %}
   {% block title %}
       {% if title %}
         {{ title }} - McKeown Zone
@@ -46,7 +46,7 @@
                     {% if current_user.is_anonymous %}
                     <li><a href="{{ url_for('login') }}">Login</a></li>
                     {% else %}
-                    <li><a href="{{ url_for('user', username=current_user.username) }}">My Profile</a></li>
+                    <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% endif %}
                 </ul>
@@ -68,4 +68,4 @@
         {% endblock %}
     </div>
   {% endblock %}
- -->
+
