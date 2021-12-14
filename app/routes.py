@@ -2,9 +2,9 @@ from operator import add
 from flask import abort, render_template, flash, redirect, url_for, request
 from flask_wtf import form
 from app import app, db
-from app.forms import AdminUserForm, AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
+from app.forms import AdminFilmForm, AdminShowForm, AdminUserForm, AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post, Address, Game
+from app.models import Film, Show, User, Post, Address, Game
 from werkzeug.urls import url_parse
 from datetime import date, datetime
 
@@ -335,4 +335,143 @@ def delete_user(id):
 	db.session.commit()
 	flash('You have successfully deleted the user.')
 	return redirect(url_for('list_users'))
+
+
+#Film View
+
+@app.route('/films')
+@login_required
+def films():
+	films = Film.query.all()
+	return render_template ('films.html', films=films, title="Films")
+
+@app.route('/admin_films', methods=['GET', 'POST'])
+@login_required
+def list_films():
+	check_admin()
+	films = Film.query.all()
+	return render_template ('admin/films/films.html', films=films, title="Films")
+
+@app.route('/admin_films/add', methods=['GET', 'POST'])
+@login_required
+def add_film():
+	check_admin()
+	add_film = True
+	form = AdminFilmForm()
+	if form.validate_on_submit():
+		film = Film(name=form.name.data, description=form.description.data, release_year = form.release_year.data, rating = form.rating.data, loan_status = form.loan_status.data, last_update = datetime.utcnow())
+
+		try:
+			db.session.add(film)
+			db.session.commit()
+			flash('You have successfully added a new film.')
+		
+		except:
+			flash('Error: Film already exists.')
+		return redirect(url_for('list_films'))
+
+	return render_template('admin/films/film.html', action="Add", add_film=add_film, form=form, title="Add Film")
+
+
+@app.route('/admin_films/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_film(id):
+	check_admin()
+	add_film = False
+	film = Film.query.get_or_404(id)
+	form = AdminVideoForm(obj=film)
+	if form.validate_on_submit():
+		film.name = form.name.data
+		film.description = form.description.data
+		film.release_year = form.release_year.data
+		film.rating = form.rating.data
+		film.loan_status = form.loan_status.data
+		film.last_update = datetime.utcnow()
+		db.session.commit()
+		flash('You have successfully edited the film.')
+		return redirect(url_for('list_films'))
+	form.description.data = film.description
+	form.name.data = film.name
+	return render_template('admin/films/film.html', action="Edit", add_film=add_film, form=form, film=film, title="Edit Film")
+
+
+@app.route('/admin_films/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_film(id):
+	check_admin()
+	film = Film.query.get_or_404(id)
+	db.session.delete(film)
+	db.session.commit()
+	flash('You have successfully deleted the film.')
+	return redirect(url_for('list_films'))
+
+
+#show View
+
+
+@app.route('/shows')
+@login_required
+def shows():
+	shows = Show.query.all()
+	return render_template ('shows.html', shows=shows, title="Shows")
+
+@app.route('/admin_shows', methods=['GET', 'POST'])
+@login_required
+def list_shows():
+	check_admin()
+	shows = Show.query.all()
+	return render_template ('admin/shows/shows.html', shows=shows, title="Shows")
+
+@app.route('/admin_shows/add', methods=['GET', 'POST'])
+@login_required
+def add_show():
+	check_admin()
+	add_show = True
+	form = AdminShowForm()
+	if form.validate_on_submit():
+		show = Show(name=form.name.data, description=form.description.data, release_year = form.release_year.data, rating = form.rating.data, loan_status = form.loan_status.data, last_update = datetime.utcnow())
+
+		try:
+			db.session.add(show)
+			db.session.commit()
+			flash('You have successfully added a new show.')
+		
+		except:
+			flash('Error: Show already exists.')
+		return redirect(url_for('list_shows'))
+
+	return render_template('admin/shows/show.html', action="Add", add_show=add_show, form=form, title="Add Show")
+
+
+@app.route('/admin_shows/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_show(id):
+	check_admin()
+	add_show = False
+	show = Show.query.get_or_404(id)
+	form = AdminVideoForm(obj=show)
+	if form.validate_on_submit():
+		show.name = form.name.data
+		show.description = form.description.data
+		show.release_year = form.release_year.data
+		show.rating = form.rating.data
+		show.loan_status = form.loan_status.data
+		show.last_update = datetime.utcnow()
+		db.session.commit()
+		flash('You have successfully edited the show.')
+		return redirect(url_for('list_shows'))
+	form.description.data = show.description
+	form.name.data = show.name
+	return render_template('admin/shows/show.html', action="Edit", add_show=add_show, form=form, show=show, title="Edit Show")
+
+
+@app.route('/admin_shows/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_show(id):
+	check_admin()
+	show = Show.query.get_or_404(id)
+	db.session.delete(show)
+	db.session.commit()
+	flash('You have successfully deleted the show.')
+	return redirect(url_for('list_shows'))
 

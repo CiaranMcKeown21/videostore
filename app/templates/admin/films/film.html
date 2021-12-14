@@ -1,0 +1,31 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+
+{% block app_content %}
+{% block title %}
+    {% if add_film %}
+        Add Film
+    {% else %}
+        Edit Film
+    {% endif %}
+{% endblock %}
+{% block body %}
+<div class="content-section">
+ <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <div class="center">
+            {% if add_film %}
+                <h1>Add Film</h1>
+            {% else %}
+                <h1>Edit Film</h1>
+            {% endif %}
+            <br/>
+            {{ wtf.quick_form(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% endblock %}

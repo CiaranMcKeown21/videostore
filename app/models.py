@@ -98,3 +98,22 @@ class Game(db.Model):
 	loan_status = db.Column(db.String(150))
 	last_update = db.Column(db.DateTime, default=datetime.utcnow)
 
+
+
+class Film(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(50))
+	description = db.Column(db.String(250))
+	release_year = db.Column(db.Integer)
+	rating = db.Column(db.Integer)
+	loan_status = db.Column(db.String(150))
+	last_update = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Show(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(50))
+	description = db.Column(db.String(250))
+	release_year = db.Column(db.Integer)
+	rating = db.Column(db.Integer)
+	loan_status = db.Column(db.String(150))
+	last_update = db.Column(db.DateTime, default=datetime.utcnow)

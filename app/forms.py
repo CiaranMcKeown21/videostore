@@ -61,6 +61,24 @@ class AdminVideoForm(FlaskForm):
 	loan_status = SelectField('Loan Status', choices=[('Available', 'Available'), ('Out on Loan', 'Out on Loan')])
 	submit = SubmitField('Submit')
 
+class AdminFilmForm(FlaskForm):
+	name = StringField('Name', validators=[DataRequired()])
+	description = StringField('Description', validators=[DataRequired()])
+	release_year = IntegerField('Release Year', validators=[DataRequired()])
+	rating = IntegerField('Rating', validators=[DataRequired()])
+	loan_status = SelectField('Loan Status', choices=[('Available', 'Available'), ('Out on Loan', 'Out on Loan')])
+	submit = SubmitField('Submit')
+
+
+class AdminShowForm(FlaskForm):
+	name = StringField('Name', validators=[DataRequired()])
+	description = StringField('Description', validators=[DataRequired()])
+	release_year = IntegerField('Release Year', validators=[DataRequired()])
+	rating = IntegerField('Rating', validators=[DataRequired()])
+	loan_status = SelectField('Loan Status', choices=[('Available', 'Available'), ('Out on Loan', 'Out on Loan')])
+	submit = SubmitField('Submit')
+
+
 class AdminUserForm(FlaskForm):
 	username = StringField('Name', validators=[DataRequired()])
 	first_name = StringField('First Name', validators=[DataRequired()])
