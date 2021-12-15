@@ -2,11 +2,14 @@ from operator import add
 from flask import abort, render_template, flash, redirect, url_for, request
 from flask_wtf import form
 from app import app, db
-from app.forms import AdminFilmForm, AdminShowForm, AdminUserForm, AdminVideoForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
+from app.forms import AdminFilmForm, AdminShowForm, AdminUserForm, AdminVideoForm, BookingForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import Film, Show, User, Post, Address, Game
+from app.models import Film, GamesBooking, Show, User, Post, Address, Game
 from werkzeug.urls import url_parse
 from datetime import date, datetime
+
+import json
+
 
 @app.before_request
 def before_request():
@@ -474,5 +477,35 @@ def delete_show(id):
 	db.session.commit()
 	flash('You have successfully deleted the show.')
 	return redirect(url_for('list_shows'))
+
+
+@app.route('/game/loan/<int:id>', methods=['GET', 'POST'])
+@login_required
+def gameloan(id):
+	game_booking = True
+	form = BookingForm()
+	if form.validate_on_submit():
+		game_booking = GamesBooking(fromdate=form.fromdate.data, todate=form.todate.data)
+		try:
+			db.session.add(game_booking)
+			db.session.commit()
+			flash('You have successfully requested this loan.')
+		
+		except:
+			flash('Error: Booking Error.')
+		return redirect(url_for('list_films'))
+
+	return render_template('game.html', action="Add", game_booking=game_booking, form=form, title="Request Loan")
+
+	# form = EmptyForm()
+	# if form.validate_on_submit():
+	# 	GamesBooking.userid = current_user.id.data
+	# 	GamesBooking.fromdate = form.fromdate.data
+	# 	GamesBooking.todate = form.todate.data
+	# 	GamesBooking.gameid = form.gameid.data
+	# 	db.session.commit(GamesBooking)
+	# 	flash('You have successfully requested a loan.')
+	# return redirect(url_for('games'))
+
 
 

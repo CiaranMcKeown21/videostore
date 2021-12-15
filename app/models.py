@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db, login
+from app import db, login, csrf
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
@@ -8,6 +8,12 @@ followers = db.Table('followers',
 	db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
 	db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
+
+show_requests = db.Table('show_requests',
+ db.Column('requester_id', db.Integer, db.ForeignKey('user.id')),
+ db.Column('requested_id', db.Integer, db.ForeignKey('show.id'))
+)
+
 @login.user_loader
 def load_user(id):
 	return User.query.get(int(id));
@@ -109,7 +115,7 @@ class Film(db.Model):
 	loan_status = db.Column(db.String(150))
 	last_update = db.Column(db.DateTime, default=datetime.utcnow)
 
-class Show(db.Model):
+class Show(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(50))
 	description = db.Column(db.String(250))
@@ -117,9 +123,42 @@ class Show(db.Model):
 	rating = db.Column(db.Integer)
 	loan_status = db.Column(db.String(150))
 	last_update = db.Column(db.DateTime, default=datetime.utcnow)
+	
+ 
+	requested_show = db.relationship(
+ 		'Show',
+	secondary=show_requests,
+	primaryjoin=(show_requests.c.requester_id == id),
+	secondaryjoin=(show_requests.c.requested_id == id),
+	backref=db.backref('requesters', lazy='dynamic'), 
+	lazy='dynamic')
+
+	def request(self, Show):
+		if not self.is_requested(Show):
+			self.requested_show.append(Show)
+
+
+
+
+
+
 
 class RequestedShow(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	show_id = db.Column(db.Integer, db.ForeignKey('show.id', ondelete='CASCADE'))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
 	request_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class GamesBooking(db.Model):
+    bookingid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    userid = db.Column(db.Integer, db.ForeignKey('user.id'))
+    gameid = db.Column(db.Integer, db.ForeignKey('game.id'))
+    fromdate = db.Column(db.DateTime)
+    todate = db.Column(db.DateTime)
+    caleventid = db.Column(db.String(255))
+
+    def __repr__(self):
+        return "<Booking(bookingid='%s', userid='%s', gameid='%s', fromdate='%s', todate='%s')>" % (
+            self.bookingid, self.userid, self.gameid, self.fromdate, self.todate
+        )
