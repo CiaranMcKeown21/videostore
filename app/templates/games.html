@@ -18,10 +18,11 @@
               <thead>
                 <tr>
                   <th width="15%"> Name </th>
-                  <th width="40%"> Description </th>
-                  <th width="15%"> Release Year </th>
-                  <th width="15%"> Rating </th>
-                  <th width="15%"> Loan Status </th>
+                  <th width="25%"> Description </th>
+                  <th width="10%"> Release Year </th>
+                  <th width="10%"> Rating </th>
+                  <th width="12.5%"> Loan Status </th>
+                  <th width="40%"> Loan Request 2 </th>
                 </tr>
               </thead>
               <tbody>
@@ -33,10 +34,12 @@
                 <td> {{ game.rating }} </td>
                 <td> {{ game.loan_status }} </td>
                 <td>
-                  <a href="{{ url_for('request_game', id=game.id) }}">
-                    <i class="fa fa-pencil"></i> Request Loan
-                  </a>
-                </td>
+                  {% if game.loan_status == "Available"  %}
+                  <form action="{{ url_for('gameloan', id=game.id) }}" method="post">
+                      <input type="submit" value="Request Loan" />
+                    </form>
+                    {% endif %}
+              </td>
                 </tr>
               {% endfor %}
               </tbody>

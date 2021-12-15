@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, TextAreaField
-from wtforms.fields.core import SelectField
+from wtforms.fields.core import DateField, SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 from app.models import User, Address
 
@@ -85,3 +85,8 @@ class AdminUserForm(FlaskForm):
 	last_name = StringField('Last Name', validators=[DataRequired()])
 	email = StringField('E-Mail', validators=[DataRequired()])
 	submit = SubmitField('Submit')
+
+class BookingForm(FlaskForm):
+	fromdate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+	todate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+	submit = SubmitField('Request Loan')
