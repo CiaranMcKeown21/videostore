@@ -117,3 +117,9 @@ class Show(db.Model):
 	rating = db.Column(db.Integer)
 	loan_status = db.Column(db.String(150))
 	last_update = db.Column(db.DateTime, default=datetime.utcnow)
+
+class RequestedShow(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	show_id = db.Column(db.Integer, db.ForeignKey('show.id', ondelete='CASCADE'))
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
+	request_date = db.Column(db.DateTime, default=datetime.utcnow)

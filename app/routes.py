@@ -475,3 +475,4 @@ def delete_show(id):
 	flash('You have successfully deleted the show.')
 	return redirect(url_for('list_shows'))
 
+

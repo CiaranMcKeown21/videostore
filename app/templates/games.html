@@ -33,7 +33,7 @@
                 <td> {{ game.rating }} </td>
                 <td> {{ game.loan_status }} </td>
                 <td>
-                  <a href="{{ url_for('edit_game', id=game.id) }}">
+                  <a href="{{ url_for('request_game', id=game.id) }}">
                     <i class="fa fa-pencil"></i> Request Loan
                   </a>
                 </td>
