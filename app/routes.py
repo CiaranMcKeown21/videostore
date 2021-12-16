@@ -493,7 +493,7 @@ def gameloan(id):
 		
 		except:
 			flash('Error: Booking Error.')
-		return redirect(url_for('list_films'))
+		return redirect(url_for('games'))
 
 	return render_template('game.html', action="Add", game_booking=game_booking, form=form, title="Request Loan")
 
