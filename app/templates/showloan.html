@@ -8,9 +8,8 @@
     <div class="middle">
       <div class="inner">
         <br/>
-        {{ utils.flashed_messages() }}
         <br/>
-        <h1 style="text-align:center;">Films Loans</h1>
+        <h1 style="text-align:center;">Show Loans</h1>
         {% if loans %}
           <hr class="intro-divider">
           <div class="center">
@@ -18,7 +17,7 @@
               <table class="table table-hover table-striped table-bordered">
               <thead>
                 <tr class="table-info">
-                  <th scope="col"> Film Name </th> </div>
+                  <th scope="col"> Show Name </th> </div>
                   <th scope="col"> Loaned To </th>
                   <th scope="col"> On Loan From </th>
                   <th scope="col"> Return Date </th>
@@ -30,7 +29,7 @@
               {% for loan in loans %}
               <tr>
                
-                <td> {{ film.query.filter_by(id=loan.filmid).first().name }} </td>
+                <td> {{ show.query.filter_by(id=loan.showid).first().name }} </td>
                 <td> {{ user.query.filter_by(id=loan.userid).first().username }} </td>
                 <td> {{ loan.fromdate.strftime('%d-%m-%Y') }} </td>
                 <td> {{ loan.todate.strftime('%d-%m-%Y') }} </td>
@@ -42,7 +41,7 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{{ url_for('editfilmloan', id=loan.bookingid) }}">
+                  <a href="{{ url_for('removeshowloan', id=loan.bookingid) }}">
                     <i class="fa fa-trash"></i> Remove
                   </a>
                 </td>
@@ -54,7 +53,7 @@
           <div style="text-align: center">
         {% else %}
           <div style="text-align: center">
-            <h3> No Films are currently on Loan. </h3>
+            <h3> No TV Shows are currently on Loan. </h3>
             <hr class="intro-divider">
         {% endif %}
         </div>

@@ -2,13 +2,12 @@ from operator import add
 from flask import abort, render_template, flash, redirect, url_for, request
 from flask_wtf import form
 from app import app, db
-from app.forms import AdminFilmForm, AdminShowForm, AdminUserForm, AdminVideoForm, BookingForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
+from app.forms import AdminFilmForm, AdminShowForm, AdminUserForm, AdminVideoForm, BookingForm, EditBookingForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Film, FilmBooking, GamesBooking, Show, ShowBooking, User, Post, Address, Game
 from werkzeug.urls import url_parse
 from datetime import date, datetime
 
-import json
 
 
 @app.before_request
@@ -48,6 +47,9 @@ def explore():
 
 	return render_template('index.html', title='Explore',posts=posts.items, next_url= next_url, prev_url=prev_url)
 
+@app.route('/about')
+def about():
+	return render_template('about.html',  title='About Us')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -416,7 +418,38 @@ def film_loans():
 	loans = FilmBooking.query.all()
 	return render_template ('filmloan.html', loans=loans, film=Film(), user=User(), datetime=datetime, title= "Loans")
 
+@app.route('/admin/film/editloan/<int:id>', methods=['GET', 'POST'])
+@login_required
+def editfilmloan(id):
+	check_admin()
+	loans = FilmBooking.query.get_or_404(id)
+	db.session.delete(loans)
+	db.session.commit()
+	flash('You have successfully removed the loan.')
+	return redirect(url_for('film_loans'))
+
+
 #show View
+
+
+
+
+@app.route('/admin/showloans')
+@login_required
+def show_loans():
+	check_admin()
+	loans = ShowBooking.query.all()
+	return render_template ('showloan.html', loans=loans, show=Show(), user=User(), datetime=datetime, title= "Loans")
+
+@app.route('/removeshowloan/<int:id>')
+@login_required
+def removeshowloan(id):
+	loans = ShowBooking.query.get_or_404(id)
+	db.session.delete(loans)
+	db.session.commit()
+	flash('You have successfully removed the loan.')
+	return redirect(url_for('show_loans'))
+
 
 
 @app.route('/shows')
@@ -521,7 +554,9 @@ def filmloan(id):
 		return redirect(url_for('films'))
 
 	return render_template('loan.html', action="Add", film_booking=film_booking, form=form, title="Request Loan")
-	
+
+
+		
 @app.route('/show/loan/<int:id>', methods=['GET', 'POST'])
 @login_required
 def showloan(id):

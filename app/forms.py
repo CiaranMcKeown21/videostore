@@ -89,5 +89,10 @@ class AdminUserForm(FlaskForm):
 
 class BookingForm(FlaskForm):
 	fromdate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
-	todate = DateField('Start Date', format='%Y-%m-%d', validators=[DataRequired()])
+	todate = DateField('Return Date', format='%Y-%m-%d', validators=[DataRequired()])
 	submit = SubmitField('Request Loan')
+
+class EditBookingForm(FlaskForm):
+	delete = BooleanField('Remove Loan', validators=[EqualTo("confirm", message= "Please Confirm")])
+	confirm = BooleanField('Confirm remove')
+	submit = SubmitField('Submit Changes')
