@@ -4,7 +4,7 @@ from flask_wtf import form
 from app import app, db
 from app.forms import AdminFilmForm, AdminShowForm, AdminUserForm, AdminVideoForm, BookingForm, LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, EditAddressForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import Film, GamesBooking, Show, User, Post, Address, Game
+from app.models import Film, FilmBooking, GamesBooking, Show, ShowBooking, User, Post, Address, Game
 from werkzeug.urls import url_parse
 from datetime import date, datetime
 
@@ -485,7 +485,7 @@ def gameloan(id):
 	game_booking = True
 	form = BookingForm()
 	if form.validate_on_submit():
-		game_booking = GamesBooking(fromdate=form.fromdate.data, todate=form.todate.data)
+		game_booking = GamesBooking(fromdate=form.fromdate.data, todate=form.todate.data, req_date = datetime.utcnow(), userid = current_user.id, gameid = id)
 		try:
 			db.session.add(game_booking)
 			db.session.commit()
@@ -495,17 +495,40 @@ def gameloan(id):
 			flash('Error: Booking Error.')
 		return redirect(url_for('games'))
 
-	return render_template('game.html', action="Add", game_booking=game_booking, form=form, title="Request Loan")
+	return render_template('loan.html', action="Add", game_booking=game_booking, form=form, title="Request Loan")
 
-	# form = EmptyForm()
-	# if form.validate_on_submit():
-	# 	GamesBooking.userid = current_user.id.data
-	# 	GamesBooking.fromdate = form.fromdate.data
-	# 	GamesBooking.todate = form.todate.data
-	# 	GamesBooking.gameid = form.gameid.data
-	# 	db.session.commit(GamesBooking)
-	# 	flash('You have successfully requested a loan.')
-	# return redirect(url_for('games'))
+@app.route('/film/loan/<int:id>', methods=['GET', 'POST'])
+@login_required
+def filmloan(id):
+	film_booking = True
+	form = BookingForm()
+	if form.validate_on_submit():
+		film_booking = FilmBooking(fromdate=form.fromdate.data, todate=form.todate.data, req_date = datetime.utcnow(), userid = current_user.id, filmid = id)
+		try:
+			db.session.add(film_booking)
+			db.session.commit()
+			flash('You have successfully requested this loan.')
+		
+		except:
+			flash('Error: Booking Error.')
+		return redirect(url_for('films'))
 
+	return render_template('loan.html', action="Add", film_booking=film_booking, form=form, title="Request Loan")
+	
+@app.route('/show/loan/<int:id>', methods=['GET', 'POST'])
+@login_required
+def showloan(id):
+	show_booking = True
+	form = BookingForm()
+	if form.validate_on_submit():
+		show_booking = ShowBooking(fromdate=form.fromdate.data, todate=form.todate.data, req_date = datetime.utcnow(), userid = current_user.id, showid = id)
+		try:
+			db.session.add(show_booking)
+			db.session.commit()
+			flash('You have successfully requested this loan.')
+		
+		except:
+			flash('Error: Booking Error.')
+		return redirect(url_for('shows'))
 
-
+	return render_template('loan.html', action="Add", show_booking=show_booking, form=form, title="Request Loan")

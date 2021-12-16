@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, TextAreaField
-from wtforms.fields.core import DateField, SelectField
+from wtforms.fields.core import SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 from app.models import User, Address
+from wtforms.fields.html5 import DateField
 
 class EmptyForm(FlaskForm):
 	submit = SubmitField('Submit')

@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db, login, csrf
+from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
@@ -151,14 +151,32 @@ class RequestedShow(db.Model):
 
 
 class GamesBooking(db.Model):
+	bookingid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	userid = db.Column(db.Integer, db.ForeignKey('user.id'))
+	gameid = db.Column(db.Integer, db.ForeignKey('game.id'))
+	fromdate = db.Column(db.DateTime)
+	todate = db.Column(db.DateTime)
+	caleventid = db.Column(db.String(255))
+	req_date = db.Column(db.DateTime)
+
+
+	def __repr__(self):
+			return "<Booking(bookingid='%s', userid='%s', gameid='%s', fromdate='%s', todate='%s')>" % (
+				self.bookingid, self.userid, self.gameid, self.fromdate, self.todate
+			)
+
+class FilmBooking(db.Model):
     bookingid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userid = db.Column(db.Integer, db.ForeignKey('user.id'))
-    gameid = db.Column(db.Integer, db.ForeignKey('game.id'))
+    filmid = db.Column(db.Integer, db.ForeignKey('film.id'))
     fromdate = db.Column(db.DateTime)
     todate = db.Column(db.DateTime)
-    caleventid = db.Column(db.String(255))
+    req_date = db.Column(db.DateTime)
 
-    def __repr__(self):
-        return "<Booking(bookingid='%s', userid='%s', gameid='%s', fromdate='%s', todate='%s')>" % (
-            self.bookingid, self.userid, self.gameid, self.fromdate, self.todate
-        )
+class ShowBooking(db.Model):
+    bookingid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    userid = db.Column(db.Integer, db.ForeignKey('user.id'))
+    showid = db.Column(db.Integer, db.ForeignKey('show.id'))
+    fromdate = db.Column(db.DateTime)
+    todate = db.Column(db.DateTime)
+    req_date = db.Column(db.DateTime)

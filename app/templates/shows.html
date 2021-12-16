@@ -18,10 +18,11 @@
               <thead>
                 <tr>
                   <th width="15%"> Name </th>
-                  <th width="40%"> Description </th>
-                  <th width="15%"> Release Year </th>
-                  <th width="15%"> Rating </th>
+                  <th width="25%"> Description </th>
+                  <th width="10%"> Release Year </th>
+                  <th width="10%"> Rating </th>
                   <th width="15%"> Loan Status </th>
+                  <th width="15%"> Loan Request </th>
                 </tr>
               </thead>
               <tbody>
@@ -32,6 +33,13 @@
                 <td> {{ show.release_year }} </td>
                 <td> {{ show.rating }} </td>
                 <td> {{ show.loan_status }} </td>
+                <td>
+                  {% if show.loan_status == "Available"  %}
+                    <a href="{{ url_for('showloan', id=show.id) }}">
+                      <i class="fa fa-trash"></i> Request Loan
+                    </a>
+                    {% endif %}
+              </td>
                 </tr>
               {% endfor %}
               </tbody>
