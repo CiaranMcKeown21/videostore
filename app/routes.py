@@ -409,6 +409,13 @@ def delete_film(id):
 	return redirect(url_for('list_films'))
 
 
+@app.route('/admin/filmloans')
+@login_required
+def film_loans():
+	check_admin()
+	loans = FilmBooking.query.all()
+	return render_template ('filmloan.html', loans=loans, film=Film(), user=User(), datetime=datetime, title= "Loans")
+
 #show View
 
 

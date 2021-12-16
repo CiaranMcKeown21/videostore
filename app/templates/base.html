@@ -34,17 +34,17 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('explore') }}">Forum</a></li>
                     <li><a href="{{ url_for('list_games') }}">Video Games</a></li>
-                    <li><a href="{{ url_for('list_films') }}">Movies</a></li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="{{ url_for('list_films') }}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                         Movies
                       </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <ul>
-                        <a class="dropdown-item"  href="{{ url_for('list_films') }}">List Movies</a></li>
-                        <a class="dropdown-item" href="{{ url_for('list_films') }}">Movies On Loan</a></li>
-                        </ul>
-                      </div>
+                        <div class="dropdown-menu active" aria-labelledby="navbarDropdownMenuLink">
+                          <ul>
+                          <a class="dropdown-item"  href="{{ url_for('list_films') }}">List Movies</a>
+                     </li>
+                          <a class="dropdown-item" href="{{ url_for('film_loans') }}">Movies On Loan</a></li>
+                          </ul>
+                        </div>
                     </li>
                     <li><a href="{{ url_for('list_shows') }}">TV Series</a></li>
                     <li><a href="{{ url_for('list_users') }}"> Users </a> </li>
