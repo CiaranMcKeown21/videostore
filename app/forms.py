@@ -50,7 +50,7 @@ class EditAddressForm(FlaskForm):
 	
 
 class PostForm(FlaskForm):
-	post = TextAreaField('Say something', validators= [
+	post = TextAreaField('Tell us your thoughts on things?', validators= [
 		DataRequired(), Length(min=1, max=140)])
 	submit = SubmitField('Submit')
 

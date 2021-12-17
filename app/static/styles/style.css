@@ -17,3 +17,37 @@
     margin: 0;
   }
   
+
+
+.roundedcornershapes {
+    border-radius: 15px 50px;
+    background: #0080FF;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    color: white;
+  
+}
+.roundedcornershapes a:link{
+    color: rgb(165, 30, 53);
+
+
+
+}
+.invertroundedcornershapes{
+    border-radius: 50px 10px;
+    background: #0F52BA;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+  .row {
+    display: flex; /* equal height of the children */
+  }
+  
+  .col {
+    flex: 1; /* additionally, equal width */
+    
+  }

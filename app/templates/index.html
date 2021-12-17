@@ -2,17 +2,27 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+
+<div class="roundedcornershapes">
     <h1>Hi, {{ current_user.first_name }}!</h1>
+<p> Welcome to the <b>McKeown Zone!</b></p>
+<p> Browse our amazing collection of <i> <a href="{{ url_for('games') }}" style="color:#ffffff;">Video Games</a>,<a href="{{ url_for('films') }}" style="color:#ffffff;">Movies</a></i> and <i> <a href="{{ url_for('shows') }}" style="color:#ffffff;">TV Shows</a>!</i></p>
+<p> <b> And the best part?</b> You can borrow them for as long as you need!</p>
+
+</div>
+</br>
     {% if form %}
     <div class="row">
 		<div class="col-md-4">
 			{{ wtf.quick_form(form) }}
 		</div>
 	</div>
+</br>
     {% endif %}
     {% for post in posts %}
     <div>{% include '_post.html' %}</div>
     {% endfor %}
+    <hr>
     <nav aria-label="...">
         <ul class="pager">
             <li class="previous{% if not prev_url %} disabled{% endif %}">

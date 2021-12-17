@@ -10,7 +10,7 @@
         <br/>
         <br/>
         <div class="roundedcornershapes">
-        <h1 style="text-align:center;"> TV Show Loans</h1></div>
+        <h1 style="text-align:center;">Video Game Loans</h1></div>
         {% if loans %}
           <hr class="intro-divider">
           <div class="center">
@@ -30,7 +30,7 @@
               {% for loan in loans %}
               <tr>
                
-                <td> {{ show.query.filter_by(id=loan.showid).first().name }} </td>
+                <td> {{ game.query.filter_by(id=loan.gameid).first().name }} </td>
                 <td> {{ user.query.filter_by(id=loan.userid).first().username }} </td>
                 <td> {{ loan.fromdate.strftime('%d-%m-%Y') }} </td>
                 <td> {{ loan.todate.strftime('%d-%m-%Y') }} </td>
@@ -42,7 +42,7 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{{ url_for('removeshowloan', id=loan.bookingid) }}">
+                  <a href="{{ url_for('removegameloan', id=loan.bookingid) }}">
                     <i class="fa fa-trash"></i> Remove
                   </a>
                 </td>

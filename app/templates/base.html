@@ -7,6 +7,7 @@
       {% endif %}
   {% endblock %}
   {% block navbar %}
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
@@ -38,26 +39,14 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               {% if current_user.is_admin %}
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('explore') }}">Forum</a></li>
                     <li><a href="{{ url_for('list_games') }}">Video Games</a></li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="{{ url_for('list_films') }}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                        Movies
-                      </a>
-                        <div class="dropdown-menu active" aria-labelledby="navbarDropdownMenuLink">
-                          <ul>
-                          <a class="dropdown-item"  href="{{ url_for('list_films') }}">List Movies</a>
-                     </li>
-                          <a class="dropdown-item" href="{{ url_for('film_loans') }}">Movies On Loan</a></li>
-                          </ul>
-                        </div>
-                    </li>
+                    <li><a href="{{ url_for('list_films') }}">Movies</a></li>
                     <li><a href="{{ url_for('list_shows') }}">TV Series</a></li>
                     <li><a href="{{ url_for('list_users') }}"> Users </a> </li>
                 </ul>
                 {% else %}
                   <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('explore') }}">Forum</a></li>
+                    <li><a href="{{ url_for('index') }}">Forum</a></li>
                     <li><a href="{{ url_for('games') }}">Video Games</a></li>
                     <li><a href="{{ url_for('films') }}">Movies</a></li>
                     <li><a href="{{ url_for('shows') }}">TV Series</a></li>
