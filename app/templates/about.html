@@ -1,15 +1,71 @@
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-{% import "bootstrap/utils.html" as utils %}
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
 {% block app_content %}
+<div class="everything">
 
-<div class="hero">
-    <h1 class="hero-title">Grid areas</h1>
-    <p class="hero-subtitle">Making life easier</p>
+   <h1><b>Hello, Welcome to the the McKeown Zone!</b></h1>
+     </br> 
+
+
+    <h4> Allow us to intoduce ourselves...  </h4>
+    </br>
+  
+
+    <hr>
+
+  
+
+
+    
+   <div class="roundedcornershapes">
+    <div class="card-header"><h1></h1></div>
+    <div class="card-body">
+    <h2 class="card-title" style="color: white;">What is the McKeown Zone?</h2>
+    <p class="card-text">Over the years we have collected a number of different media including Video Games, 
+      Movies, and TV Series Box Sets.  We regularly lend these to friends and family. The McKeown Zone is an online community of media lovers.    </p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec ex rutrum, molestie magna quis, tristique odio. Maecenas in ligula sit amet ex maximus bibendum. Nulla laoreet magna quis felis placerat consectetur. Sed id fringilla arcu. Fusce posuere tincidunt dolor a pellentesque. Duis et elit dolor. Donec feugiat maximus enim at lobortis. Nullam felis est, efficitur dignissim orci id, rutrum mollis felis. Praesent metus odio, feugiat nec efficitur a, pharetra et neque. Maecenas nec malesuada purus. Fusce posuere luctus maximus. Nunc eleifend lacinia elit at finibus.</p>
   </div>
+</div>
+
+</br>
+
+<div class="invertroundedcornershapes">
+  <div class="card-header"><h1></h1></div>
+  <div class="card-body">
+  <h2 class="card-title" style="color: white;">Who are We </h2>
+  <p class="card-text">Voluntary media lending has been in the McKeown family for centuaries. Originating from when Kevin 'The Conqueror' McKeown first invaded the old book salloon on horseback, to share the knowledge of the books (via a voluntary lending organisation.</p>
+  <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec ex rutrum, molestie magna quis, tristique odio. Maecenas in ligula sit amet ex maximus bibendum. Nulla laoreet magna quis felis placerat consectetur. Sed id fringilla arcu. Fusce posuere tincidunt dolor a pellentesque. Duis et elit dolor. Donec feugiat maximus enim at lobortis. Nullam felis est, efficitur dignissim orci id, rutrum mollis felis. Praesent metus odio, feugiat nec efficitur a, pharetra et neque. Maecenas nec malesuada purus. Fusce posuere luctus maximus. Nunc eleifend lacinia elit at finibus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec ex rutrum, molestie magna quis, tristique odio. Maecenas in ligula sit amet ex maximus bibendum. Nulla laoreet magna quis felis placerat consectetur. Sed id fringilla arcu. Fusce posuere tincidunt dolor a pellentesque. Duis et elit dolor. Donec feugiat maximus enim at lobortis. Nullam felis est, efficitur dignissim orci id, rutrum mollis felis. Praesent metus odio, feugiat nec efficitur a, pharetra et neque. Maecenas nec malesuada purus. Fusce posuere luctus maximus. Nunc eleifend lacinia elit at finibus.</p>
+</div>
+</div>
+
+</br>
+
+<div class="roundedcornershapes">
+  <div class="card-header"><h1></h1></div>
+  <div class="card-body">
+  <h2 class="card-title" style="color: white;">What we offer</h2>
+  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec ex rutrum, molestie magna quis, tristique odio. Maecenas in ligula sit amet ex maximus bibendum. Nulla laoreet magna quis felis placerat consectetur. Sed id fringilla arcu. Fusce posuere tincidunt dolor a pellentesque. Duis et elit dolor. Donec feugiat maximus enim at lobortis. Nullam felis est, efficitur dignissim orci id, rutrum mollis felis. Praesent metus odio, feugiat nec efficitur a, pharetra et neque. Maecenas nec malesuada purus. Fusce posuere luctus maximus. Nunc eleifend lacinia elit at finibus.  </p>
+</div>
+<div style="padding-left: 30%;">
+<img src="static/images/fifa.jfif" width="150" height="205"> <img src="static/images/hotfuzz.jfif" width="150" height="205"> <img src="static/images/office.jpg" width="150" height="205"> </div>
+</div>
+</div>
 
 
+</br>
+<a href={{ url_for('register') }}>
+<div class="invertroundedcornershapes">
+  <div class="card-header"><h1></h1></div>
+  <div class="card-body">
+  <h2 class="card-title" style="color: white;">Like what you see?</h2>
+  <p class="card-text">Click here to make an account! </p>
+</div>
+</div>
+</a>
+</br>
+</br>
 
-
-
+</div>
+    
 {% endblock %}

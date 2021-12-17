@@ -113,24 +113,7 @@ def edit_profile():
 		form.about_me.data = current_user.about_me
 	return render_template('edit_profile.html', title='Edit Profile', form=form)
 
-
-@app.route('/edit_address', methods=['GET', 'POST'])
-def edit_address():
-	form = EditAddressForm()
-	if form.validate_on_submit():
-		current_user.city = form.city.data
-		current_user.address = form.address.data
-		current_user.postal_Code = form.postal_Code.data
-		current_user.country = form.country.data
-		db.session.commit()
-		flash('Your changes have been saved.')
-		return redirect(url_for('edit_address'))
-	elif request.method == 'GET':
-		form.city.data = current_user.city
-		form.address.data = current_user.address
-		form.postal_Code.data = current_user.postal_code
-	return render_template('edit_address.html', title='Edit Profile', form=form)
-    
+ 
 
 
 @app.route('/follow/<username>', methods = ['POST'])
